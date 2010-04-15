@@ -4,8 +4,8 @@
 
 <% reply_links = authorize_for('issues', 'edit') -%>
 <% tabs = [
-	{:label => l(:label_history_tab_all), :name => 'history_all'}, 
-	{:label => l(:label_history_tab_comments), :name => 'history_comments'},
+	{:label => :label_history_tab_all, :name => 'history_all'}, 
+	{:label => :label_history_tab_comments, :name => 'history_comments'},
 	] %> 
 <% selected_tab = params[:tab] ? params[:tab].to_s : 'history_comments' %> 
 
