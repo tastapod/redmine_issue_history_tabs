@@ -21,7 +21,7 @@
 </div>
 
 <% tabs.each do |tab| -%>
-<%= content_tag('div', render(:partial => tab[:name], :locals => { :journals => journals, :reply_links => reply_links}), 
+  <%= content_tag('div', render(:partial => tab[:name], :locals => { :issue => issue, :journals => journals, :reply_links => reply_links}), 
                        :id => "tab-content-#{tab[:name]}",
                        :style => (tab[:name] != selected_tab ? 'display:none' : nil),
                        :class => 'tab-content') %>
