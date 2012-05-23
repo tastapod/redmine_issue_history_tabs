@@ -1,0 +1,40 @@
+<% reply_links = authorize_for('issues', 'edit') -%>
+<% tabs = [
+	{:label => :label_history_tab_all, :name => 'history_all'}, 
+	{:label => :label_history_tab_comments, :name => 'history_comments'},
+	] %> 
+<% selected_tab = params[:tab] ? params[:tab].to_s : 'history_comments' %> 
+
+<div class="tabs">
+<ul>
+<% tabs.each do |tab| -%>
+    <li><%= link_to l(tab[:label]), { :tab => tab[:name] },
+                                    :id => "tab-#{tab[:name]}",
+                                    :class => (tab[:name] != selected_tab ? nil : 'selected')%></li>
+<% end -%>
+</ul>
+</div>
+
+<% reply_links = authorize_for('issues', 'edit') -%>
+<% for journal in journals %>
+  <% journal.css_classes << " non_comment" if journal.notes.blank? %>
+  <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>">
+    <h4><%= link_to "##{journal.indice}", {:anchor => "note-#{journal.indice}"}, :class => "journal-link" %>
+    <%= avatar(journal.user, :size => "24") %>
+    <%= content_tag('a', '', :name => "note-#{journal.indice}")%>
+    <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %></h4>
+
+    <% if journal.details.any? %>
+    <ul class="details">
+      <% details_to_strings(journal.details).each do |string| %>
+       <li><%= string %></li>
+      <% end %>
+    </ul>
+    <% end %>
+    <%= render_notes(issue, journal, :reply_links => reply_links) unless journal.notes.blank? %>
+  </div>
+  <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %>
+<% end %>
+
+<% heads_for_wiki_formatter if User.current.allowed_to?(:edit_issue_notes, issue.project) || User.current.allowed_to?(:edit_own_issue_notes, issue.project) %>
+
