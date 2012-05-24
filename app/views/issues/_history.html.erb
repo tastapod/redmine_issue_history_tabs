@@ -1,3 +1,7 @@
+<% content_for :header_tags do%>
+  <%= stylesheet_link_tag('issue_history_tabs.css', :plugin => :redmine_issue_history_tabs) %>
+<%end%>
+
 <% reply_links = authorize_for('issues', 'edit') -%>
 <% tabs = [
 	{:label => :label_history_tab_all, :name => 'history_all'}, 
