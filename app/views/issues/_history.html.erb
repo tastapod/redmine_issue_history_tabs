@@ -17,7 +17,6 @@
 
 <% reply_links = authorize_for('issues', 'edit') -%>
 <% for journal in journals %>
-  <% journal.css_classes << " non_comment" if journal.notes.blank? %>
   <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>">
     <h4><%= link_to "##{journal.indice}", {:anchor => "note-#{journal.indice}"}, :class => "journal-link" %>
     <%= avatar(journal.user, :size => "24") %>
