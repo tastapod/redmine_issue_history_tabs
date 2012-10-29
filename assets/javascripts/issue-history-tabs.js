@@ -5,30 +5,30 @@ Date: 23/05/2012
 function init_tabs() {
   tabComment = $('tab-history_comments');
   tabAll = $('tab-history_all');
-  tabComment.observe('click', click_comments);
-  tabAll.observe('click', click_all);
-  tabComment.hasClassName('selected') ? show_comments() : show_all();
+  $(tabComment).bind('click', click_comments);
+  $(tabAll).bind('click', click_all);
+  tabComment.hasClass('selected') ? show_comments() : show_all();
 }
 
 function show_comments() {
-  $$('.journal').invoke('hide');
-  $$('.journal.has-notes').invoke('show');
+  $('.journal').hide();
+  $('.journal.has-notes').show();
 }
 
 function show_all() {
-  $$('.journal').invoke('show');
+  $('.journal').show();
 }
 
 function click_comments(e) {
-  tabComment.addClassName('selected');
-  tabAll.removeClassName('selected');
+  tabComment.addClass('selected');
+  tabAll.removeClass('selected');
   show_comments();
   Event.stop(e);
 }
 
 function click_all(e) {
-  tabComment.removeClassName('selected');
-  tabAll.addClassName('selected');
+  tabComment.removeClass('selected');
+  tabAll.addClass('selected');
   show_all();
   Event.stop(e);
 }
@@ -36,6 +36,6 @@ function click_all(e) {
 var tabAll;
 var tabComment;
 
-document.observe('dom:loaded', function(){
+$(document).ready(function(){
   init_tabs();
 });

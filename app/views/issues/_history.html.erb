@@ -4,8 +4,8 @@
 
 <% reply_links = authorize_for('issues', 'edit') -%>
 <% tabs = [
-	{:label => :label_history_tab_all, :name => 'history_all'}, 
 	{:label => :label_history_tab_comments, :name => 'history_comments'},
+	{:label => :label_history_tab_all, :name => 'history_all'}, 
 	] %> 
 <% selected_tab = params[:tab] ? params[:tab].to_s : 'history_comments' %> 
 
@@ -21,6 +21,7 @@
 
 <% reply_links = authorize_for('issues', 'edit') -%>
 <% for journal in journals %>
+<% if selected_tab == 'history_all' || journal.css_classes == 'journal has-notes'%>
   <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>">
     <h4><%= link_to "##{journal.indice}", {:anchor => "note-#{journal.indice}"}, :class => "journal-link" %>
     <%= avatar(journal.user, :size => "24") %>
@@ -36,7 +37,8 @@
     <% end %>
     <%= render_notes(issue, journal, :reply_links => reply_links) unless journal.notes.blank? %>
   </div>
-  <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %>
+  <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %>  
+<% end %>
 <% end %>
 
 <% heads_for_wiki_formatter if User.current.allowed_to?(:edit_issue_notes, issue.project) || User.current.allowed_to?(:edit_own_issue_notes, issue.project) %>
